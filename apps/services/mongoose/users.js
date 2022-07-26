@@ -1,0 +1,26 @@
+const Users = require('../../api/v1/users/model')
+const Organizers = require('../../api/v1/organizers/model')
+const { BadRequestError } = require('../../errors');
+
+const createOrganizer = async (req, res, next) => {
+    const { organizer, role, email, password, confirmPassword, name } = req.body;
+    if (password !== confirmPassword) {
+        throw new BadRequestError('Password dan confirmPassword tidak cocok');
+    }
+    const result = await Organizers.create({ organizer });
+    const users = await Users.create({
+        email,
+        name,
+        password,
+        organizer: result._id,
+        role,
+    })
+    delete users._doc.password;
+    // digunakan _doc untuk memanipulasi hasil dari users
+    // untuk mendelete si password agar tidak tampil di respon
+    return users;
+}
+
+module.exports = {
+    createOrganizer
+}

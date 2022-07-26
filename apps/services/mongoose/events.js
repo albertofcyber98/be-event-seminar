@@ -152,17 +152,17 @@ const updateEvents = async (req) => {
     const result = await Events.findOneAndUpdate(
         { _id: id },
         {
-        title,
-        date,
-        about,
-        tagline,
-        venueName,
-        keyPoint,
-        statusEvent,
-        tickets,
-        image,
-        category,
-        talent,
+            title,
+            date,
+            about,
+            tagline,
+            venueName,
+            keyPoint,
+            statusEvent,
+            tickets,
+            image,
+            category,
+            talent,
         },
         { new: true, runValidators: true }
     );

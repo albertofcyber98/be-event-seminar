@@ -12,6 +12,8 @@ const categoriesRouter = require('./apps/api/v1/categories/router');
 const imagesRouter = require('./apps/api/v1/images/router');
 const talentsRouter = require('./apps/api/v1/talents/router');
 const eventsRouter = require('./apps/api/v1/events/router');
+const organizersRouter = require('./apps/api/v1/organizers/router');
+const authCMSRouter = require('./apps/api/v1/auth/router');
 
 // middlewares
 const notFoundMiddleware = require('./apps/middlewares/not-found');
@@ -38,6 +40,8 @@ app.use(v1, categoriesRouter);
 app.use(v1, imagesRouter);
 app.use(v1, talentsRouter);
 app.use(v1, eventsRouter);
+app.use(v1, organizersRouter);
+app.use(v1, authCMSRouter);
 
 // middlewares
 app.use(notFoundMiddleware);
