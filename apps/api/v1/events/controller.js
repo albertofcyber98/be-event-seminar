@@ -2,7 +2,7 @@ const {
     getAllEvents,
     getOneEvents,
     updateEvents,
-    updateStatusEvents,
+    changeStatusEvents,
     createEvents,
     deleteEvents,
 } = require('../../../services/mongoose/events');
@@ -57,9 +57,9 @@ const update = async (req, res, next) => {
     }
 };
 
-const updateStatus = async (req, res, next) => {
+const changeStatus = async (req, res, next) => {
     try {
-        const result = await updateStatusEvents(req);
+        const result = await changeStatusEvents(req);
 
         res.status(StatusCodes.OK).json({
         data: result,
@@ -87,5 +87,5 @@ module.exports = {
     update,
     destroy,
     create,
-    updateStatus
+    changeStatus
 };

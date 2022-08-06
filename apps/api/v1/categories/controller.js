@@ -1,5 +1,11 @@
 // import services categories
-const { getAllCategories, getOneCategories, updateCategories, createCategories, deleteCategories } = require('../../../services/mongoose/categories');
+const {
+    getAllCategories,
+    getOneCategories,
+    updateCategories,
+    createCategories,
+    deleteCategories
+} = require('../../../services/mongoose/categories');
 const { StatusCodes } = require('http-status-codes');
 
 const Categories = require('./model');
@@ -56,13 +62,6 @@ const destroy = async (req, res, next) => {
         });
     } catch (err) {
         next(err);
-        //  // error validation dari mongoose
-        // if (err.name === 'ValidationError') {
-        //     customError.msg = Object.values(err.errors)
-        //     .map((item) => item.message)
-        //     .join(', ');
-        //     customError.statusCode = 400;
-        // }
     }
 }
 

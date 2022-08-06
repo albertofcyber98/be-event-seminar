@@ -4,25 +4,34 @@ const Categories = require('../../api/v1/categories/model');
 // import custom error not found dan bad request
 const { NotFoundError, BadRequestError } = require('../../errors');
 
-const getAllCategories = async () => {
-    const result = await Categories.find();
+const getAllCategories = async (req) => {
+    const result = await Categories.find({organizer:req.user.organizer});
     return result;
 };
 
 const createCategories = async (req) => {
     const { name } = req.body;
     // cari categories dengan field name
-    const check = await Categories.findOne({ name });
+    const check = await Categories.findOne({
+        name,
+        organizer: req.user.organizer,
+    });
     // apa bila check true / data categories sudah ada maka
     // kita tampilkan error bad request dengan message kategori nama duplikat
     if (check) throw new BadRequestError('Kategori nama duplikat');
-    const result = await Categories.create({ name });
+    const result = await Categories.create({
+        name,
+        organizer: req.user.organizer
+    });
     return result;
 };
 
 const getOneCategories = async (req) => {
     const { id } = req.params;
-    const result = await Categories.findOne({ _id: id });
+    const result = await Categories.findOne({
+        _id: id,
+        organizer: req.user.organizer
+    });
     if (!result) throw new NotFoundError(`Tidak ada kategori dengan id : ${id}`);
     return result;
 }
@@ -33,6 +42,7 @@ const updateCategories = async (req) => {
     // cari categories dengan field name dan id selain dari yang dikirm dari params
     const check = await Categories.findOne({
         name,
+        organizer: req.user.organizer,
         _id: { $ne: id }
     });
     // apa bila check true/data categories sudah ada maka kita tampilkan
@@ -52,7 +62,8 @@ const updateCategories = async (req) => {
 const deleteCategories = async (req) => {
     const { id } = req.params;
     const result = await Categories.findOne({
-        _id: id
+        _id: id,
+        organizer: req.user.organizer
     });
     if (!result) throw new NotFoundError(`Tidak ada kategori dengan id : ${id}`);
     await result.remove();

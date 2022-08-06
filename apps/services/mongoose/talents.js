@@ -31,12 +31,20 @@ const createTalents = async (req) => {
     await checkingImage(image);
 
     // cari talents dengan field name
-    const check = await Talents.findOne({ name });
+    const check = await Talents.findOne({
+        name,
+        organizer: req.user.organizer,
+    });
 
     // apa bila check true / data talents sudah ada maka kita tampilkan error bad request dengan message Nama pembicara sudah terdaftar
     if (check) throw new BadRequestError('Nama pembicara sudah terdaftar');
 
-    const result = await Talents.create({ name, image, role });
+    const result = await Talents.create({
+        name,
+        image,
+        role,
+        organizer: req.user.organizer,
+    });
 
     return result;
 };
@@ -44,7 +52,10 @@ const createTalents = async (req) => {
 const getOneTalents = async (req) => {
     const { id } = req.params;
 
-    const result = await Talents.findOne({ _id: id })
+    const result = await Talents.findOne({
+        _id: id,
+        organizer: req.user.organizer,
+    })
         .populate({
         path: 'image',
         select: '_id name',
@@ -67,6 +78,7 @@ const updateTalents = async (req) => {
     // cari talents dengan field name dan id selain dari yang dikirim dari params
     const check = await Talents.findOne({
         name,
+        organizer: req.user.organizer,
         _id: { $ne: id },
     });
 
@@ -75,7 +87,7 @@ const updateTalents = async (req) => {
 
     const result = await Talents.findOneAndUpdate(
         { _id: id },
-        { name, image, role },
+        { name, image, role, organizer: req.user.organizer },
         { new: true, runValidators: true }
     );
 
@@ -91,6 +103,7 @@ const deleteTalents = async (req) => {
 
     const result = await Talents.findOne({
         _id: id,
+        organizer: req.user.organizer,
     });
 
     if (!result)

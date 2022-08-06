@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Invoice Payment Event</title>
+    </head>
+    <div style="padding: 30px;position: relative;">
+        <div class="toolbar hidden-print">
+        <hr />
+        </div>
+        <div class="overflow-auto" style="position: relative;background-color: #fff;min-height: 680px;padding: 15px;">
+        <div style="min-width: 600px">
+            <header
+            style="
+                padding: 10px 0;
+                margin-bottom: 20px;
+                border-bottom: 1px solid #3989c6;
+            "
+            >
+            <div class="row">
+                <div class="col" style="text-align: left">
+                <h2 style="margin-top: 0; margin-bottom: 0">
+                    Event
+                </h2>
+                <div>Makassar, Indonesia</div>
+                <div>(213) 192-111</div>
+                <div>yohanesalbert2@.com</div>
+                </div>
+            </div>
+            </header>
+            <main style="padding-bottom: 25px">
+            <div class="row" style="margin-bottom: 20px">
+                <div class="col" style="text-align: left">
+                <div class="text-gray-light">INVOICE TO:</div>
+                <h2 class="to" style="margin-top: 0; margin-bottom: 0">
+                    {{personalDetail.firstName}} {{personalDetail.lastName}}
+                </h2>
+                </div>
+                <div class="col">
+                <h1 style="margin-top: 0; color: rgb(168, 165, 165)">
+                    Invoice
+                </h1>
+                <div class="date">{{id}}</div>
+                <div class="date">{{date}}</div>
+                </div>
+            </div>
+            <table border="0" cellspacing="0" cellpadding="0" style="width: 50%; border-collapse: collapse;border-spacing: 0;margin-bottom: 20px;">
+                <tr>
+                    <th style="padding: 15px;background: #eee;border-bottom: 1px solid rgb(168, 165, 165);white-space: nowrap;font-size: 16px;font-weight: 400;">Event Name</th>
+                    <th style="padding: 15px;background: #eee;border-bottom: 1px solid rgb(168, 165, 165);white-space: nowrap;font-size: 16px;font-weight: 400;">{{ historyEvent.title }}</th>
+                </tr>
+                <tr>
+                    <th style="padding: 15px;background: #eee;border-bottom: 1px solid rgb(168, 165, 165);white-space: nowrap;font-size: 16px;font-weight: 400;">Event Description</th>
+                    <th style="padding: 15px;background: #eee;border-bottom: 1px solid rgb(168, 165, 165);font-size: 16px;font-weight: 400;">{{ historyEvent.about }}</th>
+                </tr>
+                <tr>
+                    <th style="padding: 15px;background: #eee;border-bottom: 1px solid rgb(168, 165, 165);white-space: nowrap;font-size: 16px;font-weight: 400;">Event Location</th>
+                    <th style="padding: 15px;background: #eee;border-bottom: 1px solid rgb(168, 165, 165);white-space: nowrap;font-size: 16px;font-weight: 400;">{{ historyEvent.venueName }}</th>
+                </tr>
+                <tr>
+                    <th style="padding: 15px;background: #eee;border-bottom: 1px solid rgb(168, 165, 165);white-space: nowrap;font-size: 16px;font-weight: 400;">Total Payments</th>
+                    <th style="padding: 15px;background: #eee;border-bottom: 1px solid rgb(168, 165, 165);white-space: nowrap;font-size: 16px;font-weight: 400;">{{ totalPay }}</th>
+                </tr>
+            </table>
+            <div style="margin-top: -100px;font-size:2em;margin-bottom:50px">Thank you!</div>
+            </main>
+            <footer style="width: 100%;text-align: center;color: #777;border-top: 1px solid #aaa;padding: 8px 0;">
+            Invoice was created on a computer and is valid without the signature
+            and seal.
+            </footer>
+        </div>
+        <div></div>
+        </div>
+    </div>
+</html>
