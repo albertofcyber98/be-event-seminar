@@ -19,6 +19,6 @@ const signin = async (req) => {
         throw new UnauthorizedError('Invalid Credentials');
     }
     const token = createJWT({ payload: createTokenUser(result) });
-    return token;
+    return {token, role: result.role};
 }
 module.exports = { signin };
