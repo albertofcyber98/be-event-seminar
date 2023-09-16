@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express();
 const {
-  signup,
-  activeParticipant,
-  signin,
-  getAllLandingPage,
-  getDetailLandingPage,
-  getDashboard,
-  checkout,
+    signup,
+    activeParticipant,
+    signin,
+    getAllLandingPage,
+    getDetailLandingPage,
+    getDashboard,
+    checkout,
+    getAllPayment
 } = require('./controller');
 
 const { authenticateParticipant } = require('../../../middlewares/auth');
@@ -31,6 +32,11 @@ router.get(
 router.get(
     '/events/:id',
     getDetailLandingPage
+);
+router.get(
+    '/payments/:organizer',
+    authenticateParticipant,
+    getAllPayment
 );
 router.get(
     '/orders',

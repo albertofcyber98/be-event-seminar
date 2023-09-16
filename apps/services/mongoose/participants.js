@@ -4,9 +4,9 @@ const Orders = require('../../api/v1/orders/model');
 const Payments = require('../../api/v1/payments/model');
 
 const {
-  BadRequestError,
-  NotFoundError,
-  UnauthorizedError,
+    BadRequestError,
+    NotFoundError,
+    UnauthorizedError,
 } = require('../../errors');
 const { createTokenParticipant, createJWT } = require('../../utils');
 
@@ -31,12 +31,12 @@ const signupParticipant = async (req) => {
         await result.save();
     } else {
         result = await Participant.create({
-        firstName,
-        lastName,
-        email,
-        password,
-        role,
-        otp: Math.floor(Math.random() * 9999),
+            firstName,
+            lastName,
+            email,
+            password,
+            role,
+            otp: Math.floor(Math.random() * 9999),
         });
     }
     await otpMail(email, result);
@@ -60,7 +60,7 @@ const activateParticipant = async (req) => {
     const result = await Participant.findByIdAndUpdate(
         check._id,
         {
-        status: 'aktif',
+            status: 'aktif',
         },
         { new: true }
     );
@@ -111,7 +111,7 @@ const getOneEvent = async (req) => {
     const { id } = req.params;
     const result = await Events.findOne({ _id: id })
         .populate('category')
-        .populate({path:'talent', populate: 'image'})
+        .populate({ path: 'talent', populate: 'image' })
         .populate('image');
 
     if (!result) throw new NotFoundError(`Tidak ada acara dengan id :  ${id}`);
@@ -140,7 +140,7 @@ const checkoutOrder = async (req) => {
 
     if (!checkingPayment) {
         throw new NotFoundError(
-        'Tidak ada metode pembayaran dengan id :' + payment
+            'Tidak ada metode pembayaran dengan id :' + payment
         );
     }
 
@@ -148,16 +148,16 @@ const checkoutOrder = async (req) => {
         totalOrderTicket = 0;
     await tickets.forEach((tic) => {
         checkingEvent.tickets.forEach((ticket) => {
-        if (tic.ticketCategories.type === ticket.type) {
-            if (tic.sumTicket > ticket.stock) {
-            throw new NotFoundError('Stock event tidak mencukupi');
-            } else {
-            ticket.stock = ticket.stock -= tic.sumTicket;
+            if (tic.ticketCategories.type === ticket.type) {
+                if (tic.sumTicket > ticket.stock) {
+                    throw new NotFoundError('Stock event tidak mencukupi');
+                } else {
+                    ticket.stock = ticket.stock -= tic.sumTicket;
 
-            totalOrderTicket += tic.sumTicket;
-            totalPay += tic.ticketCategories.price * tic.sumTicket;
+                    totalOrderTicket += tic.sumTicket;
+                    totalPay += tic.ticketCategories.price * tic.sumTicket;
+                }
             }
-        }
         });
     });
 
@@ -178,19 +178,27 @@ const checkoutOrder = async (req) => {
     };
 
     const result = new Orders({
-            date: new Date(),
-            personalDetail: personalDetail,
-            totalPay,
-            totalOrderTicket,
-            orderItems: tickets,
-            participant: req.participant.id,
-            event,
-            historyEvent,
-            payment,
-        });
+        date: new Date(),
+        personalDetail: personalDetail,
+        totalPay,
+        totalOrderTicket,
+        orderItems: tickets,
+        participant: req.participant.id,
+        event,
+        historyEvent,
+        payment,
+    });
 
     await result.save();
     await invoiceMail(personalDetail.email, result);
+    return result;
+};
+
+const getAllPaymentByOrganizer = async (req) => {
+    const { organizer } = req.params;
+
+    const result = await Payments.find({ organizer: organizer });
+
     return result;
 };
 
@@ -202,4 +210,5 @@ module.exports = {
     getOneEvent,
     getAllOrders,
     checkoutOrder,
+    getAllPaymentByOrganizer
 };
