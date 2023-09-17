@@ -27,7 +27,7 @@ const notFoundMiddleware = require('./apps/middlewares/not-found');
 const handleErrorMiddleware = require('./apps/middlewares/handler-error');
 
 
-app.use(cors({ origin: true }));
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
