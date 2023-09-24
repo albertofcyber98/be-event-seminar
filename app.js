@@ -28,7 +28,7 @@ const handleErrorMiddleware = require('./apps/middlewares/handler-error');
 
 
 app.use(cors({
-    origin:["https://cms-event.netlify.app/"],
+    origin:["https://cms-event.netlify.app"],
     methods:["POST,GET"],
     credentials: true
 }));
