@@ -7,6 +7,12 @@ const cors = require('cors');
 
 const app = express();
 
+app.use(cors({
+    origin:["https://cms-event.netlify.app"],
+    methods:["POST,GET"],
+    credentials: true
+}));
+
 // router
 const categoriesRouter = require('./apps/api/v1/categories/router');
 const imagesRouter = require('./apps/api/v1/images/router');
@@ -27,11 +33,6 @@ const notFoundMiddleware = require('./apps/middlewares/not-found');
 const handleErrorMiddleware = require('./apps/middlewares/handler-error');
 
 
-app.use(cors({
-    origin:["https://cms-event.netlify.app"],
-    methods:["POST,GET"],
-    credentials: true
-}));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
